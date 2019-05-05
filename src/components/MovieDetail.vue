@@ -10,7 +10,7 @@
           <div class="media_info">
             <div class="info_box">
               <div class="info_img">
-                <img :src="movie.image" class="pos_img">
+                <img :src="movie.img" class="pos_img">
               </div>
               <div class="info_text">
                 <div class="title">
@@ -22,8 +22,8 @@
                 <div class="en_title">{{movie.titleEn}}</div>
                 <div class="type_tag">
                   <span>{{movie.runTime}}</span>
-                  <span>{{movie.release.date}} </span>
-                  <span>{{movie.release.location}}上映 - </span>
+                  <!-- <span>{{movie.release.date}} </span>
+                  <span>{{movie.release.location}}上映 - </span> -->
                   <span v-if="movie.is3D">3D</span>
                   <span v-if="!movie.is3D">2D</span>
                   <span v-if="movie.isIMAX">/ IMAX</span>
@@ -34,11 +34,11 @@
                   <div class="list">
                     <div class="item">
                       <div class="title">导演：</div>
-                      <div class="name"><span v-for="director in movie.directors">{{director}}</span></div>
+                      <!-- <div class="name"><span v-for="director in movie.directors">{{director}}</span></div> -->
                     </div>
                     <div class="item">
                       <div class="title">演员：</div>
-                      <div class="name"><span v-for="actor in movie.actors">{{actor}}、</span>...</div>
+                      <!-- <div class="name"><span v-for="actor in movie.actors">{{actor}}、</span>...</div> -->
                     </div>
                   </div>
                   <div class="intro_text">剧情：{{movie.content}}</div>
@@ -57,9 +57,9 @@
           <div class="previve">
             <div class="title">预告片：</div>
             <div class="video_list">
-              <a href="javascript:;" v-for="video in movie.videos" style="display: inline-block">
-              <img :src="video.image" @click="changeSource(video)">
-              <p>{{video.title}}</p>
+              <a href="javascript:;"  style="display: inline-block">
+              <img :src="movie.img" @click="changeSource(movie)">
+              <p>{{img.title}}</p>
             </a>
             </div>
           </div>
@@ -121,7 +121,7 @@ let _self;
 import Layout from '@/components/Layout';
 import { Toast } from 'mint-ui';
 import Store from 'storejs'
-
+import { customers, movieOpt } from "@/sqlMap.js";
 export default {
   data: function() {
     return {
@@ -205,26 +205,35 @@ export default {
       params.ts = '201851015581118117';
       params.locationId = this.city.id;
       this.loading.movie = 'loading';
-      this.$store.dispatch('getMovieDetail', params).then(function(response) {
-        let res = response.data;
-        res && res.videoId ? res = res : res = JSON.parse(res);
-        // console.log(res)
-        if (response.ok && response.status === 200) {
+     var sql= movieOpt.getOne.replace('?',params.movieId)
+     this.$hp.post("action", {sql: sql}).then(res => {
+         debugger
+          _self.movie = res.data[0];
           _self.loading.movie = 'loaded';
-          res.movie_id = params.movieId;
-          _self.movie = res;
           _self.getHotLongComments();
           _self.getMovieComments();
           _self.$nextTick(() => {
             _self.saveHistory();
           })
-        } else {
-          _self.loading.movie = 'loaded';
-        }
+     })
+    //   this.$store.dispatch('getMovieDetail', params).then(function(response) {
+    //     let res = response.data;
+    //     res && res.videoId ? res = res : res = JSON.parse(res);
+    //     // console.log(res)
+    //     if (response.ok && response.status === 200) {
+    //       _self.loading.movie = 'loaded';
+    //       res.movie_id = params.movieId;
+    //       _self.movie = res;
+    //       _self.getHotLongComments();
+    //       _self.getMovieComments();
+    //       _self.$nextTick(() => {
+    //         _self.saveHistory();
+    //       })
+    //     } else {
+    //       _self.loading.movie = 'loaded';
+    //     }
 
-      }).catch(function(err) {
-        _self.loading.movie = 'loaded';
-      });
+    //   })
     },
     getHotLongComments() {
       let params = {};

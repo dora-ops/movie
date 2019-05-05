@@ -11,6 +11,14 @@ import 'muse-ui/dist/muse-ui.css'
 import Store from 'storejs'
 
 import filters from './filters.js';
+import axios from 'axios'
+const instance = axios.create({
+    baseURL: 'http://localhost:3000/api/base/', // api 的 base_url
+    
+})
+
+// axios.defaults.baseURL = 'http://localhost:3000/api/base/' 
+Vue.prototype.$hp = instance
 
 // Fastclick.attach(document.body)
 Vue.use(MuseUI)
