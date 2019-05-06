@@ -9,6 +9,9 @@ import 'muse-ui/dist/muse-ui.css'
 
 // import Fastclick from 'fastclick'
 import Store from 'storejs'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI);
 
 import filters from './filters.js';
 import axios from 'axios'

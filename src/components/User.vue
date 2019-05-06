@@ -10,6 +10,10 @@
             <mu-icon slot="left" value="favorite"/>
             <mu-icon slot="right" value="keyboard_arrow_right"/>
           </mu-list-item>
+          <mu-list-item title="我的订单" to="user/order">
+            <mu-icon slot="left" value="favorite"/>
+            <mu-icon slot="right" value="keyboard_arrow_right"/>
+          </mu-list-item>
           <mu-list-item title="设置" to="user/settings">
             <mu-icon slot="left" value="settings"/>
             <mu-icon slot="right" value="keyboard_arrow_right"/>
@@ -18,7 +22,11 @@
             <mu-icon slot="left" value="timeline"/>
             <mu-icon slot="right" value="keyboard_arrow_right"/>
           </mu-list-item>
-          <mu-list-item title="登录" to="user/login">
+          <mu-list-item v-if="user==null" title="登录" to="user/to_login" >
+            <mu-icon slot="left" value="timeline"/>
+            <mu-icon slot="right" value="keyboard_arrow_right"/>
+          </mu-list-item>
+           <mu-list-item v-else title="退出" @click="quit">
             <mu-icon slot="left" value="timeline"/>
             <mu-icon slot="right" value="keyboard_arrow_right"/>
           </mu-list-item>
@@ -37,19 +45,23 @@ let _self;
 import Layout from '@/components/Layout';
 
 export default {
-    data: function() {
+     data() {
         return {
-            
+            user:null
         };
     },
     created() {
         _self = this;
+       this.user=JSON.parse(localStorage.getItem('userInfo')) 
     },
     mounted() {
         
     },
     methods: {
-        
+        quit(){
+            localStorage.removeItem('userInfo')
+            this.$router.push({ name: "to_login" });
+        }
     },
     computed: {
         

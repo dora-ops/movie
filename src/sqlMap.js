@@ -70,11 +70,16 @@ const base = {
     },
 }
 const customers = {
-    login: 'select * from customers where tel=? AND password=?'
+    login: 'select * from customers where name=? AND password=?'
 }
 const movieOpt = {
     getAll: 'select * from movie',
     getOne: 'select * from movie where id=?'
+}
+const v_order={
+    find: 'select * from v_order cl where cl.cus_id=?',
+    getOne:'select * from v_order cl where cl.id=?',
+    delete: 'delete  from v_order cl where cl.id=?',
 }
 module.exports = {
     pageList,
@@ -82,5 +87,6 @@ module.exports = {
     customers,
     movieOpt,
     base,
+    v_order,
  
 };

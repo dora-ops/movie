@@ -13,6 +13,10 @@ import History from '@/components/History'
 import Favorite from '@/components/Favorite'
 import Settings from '@/components/Settings'
 import Login from '@/components/login'
+import To_Login from '@/components/user/login'
+import register from '@/components/user/register'
+import order from '@/components/user/order'
+import video from '@/components/video'
 import MovieAllHotComments from '@/components/MovieAllHotComments'
 import test from '@/components/test'
 
@@ -48,6 +52,11 @@ const routes =  [
       name: 'MovieDetail',
       component: MovieDetail,
     },
+    {
+        path: '/movie/video',
+        name: 'video',
+        component: video,
+      },
     {
       path: '/movie/HotComments/:movie_id',
       name: 'MovieAllHotComments',
@@ -90,7 +99,22 @@ const routes =  [
       path: '/user/login',
       name: 'Login',
       component: Login,
-    }
+    },
+    {
+        path: '/user/to_login',
+        name: 'To_Login',
+        component: To_Login,
+      },
+      {
+        path: '/user/register',
+        name: 'register',
+        component: register,
+      },
+      {
+        path: '/user/order',
+        name: 'order',
+        component: order,
+      }
   ]
 
 
